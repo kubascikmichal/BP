@@ -13,6 +13,11 @@ ATWIN::ATWIN()
 {
 } //ATWIN
 
+ ATWIN::ATWIN(I2C pI2C)
+ {
+	this->i2c = pI2C;
+ }
+
 // default destructor
 ATWIN::~ATWIN()
 {

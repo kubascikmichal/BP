@@ -13,6 +13,7 @@
 #include "UART.h"
 #include "I2C.h"
 #include "Commands.h"
+#include "Modes.h"
 
 class PN532
 {
@@ -20,7 +21,7 @@ class PN532
 public:
 protected:
 private:
-	 uint8_t mode;			//defines, what mode will be used - I2C, SPI or UART
+	 Mode::Mode mode;			//defines, what mode will be used - I2C, SPI or UART
 	 I2C i2c;				//object of I2C for communication via I2C bus
 	 UART uart;	
 
@@ -29,8 +30,8 @@ public:
 	PN532();
 	~PN532();
 	
-	PN532(I2C* pI2C);
-	PN532(UART* pUART);
+	PN532(I2C pI2C);
+	PN532(UART pUART);
 	
 protected:
 private:			//object of UART for communication via UART

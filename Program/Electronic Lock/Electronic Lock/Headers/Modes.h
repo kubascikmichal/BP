@@ -8,12 +8,14 @@
 
 #ifndef MODES_H_
 #define MODES_H_
-
-enum Mode{
-		I2C,
-		UART,
-		SPI,
-		ALL_POSSIBLE
+namespace Mode{
+	enum Mode{
+		I2C_MODE,
+		UART_MODE,
+		SPI_MODE,
+		ALL_MODES_POSSIBLE
 	};
+}
+
 	
 #endif /* MODES_H_ */

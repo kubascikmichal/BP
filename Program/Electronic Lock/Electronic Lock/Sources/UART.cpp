@@ -73,10 +73,10 @@ void UART::Uart_send( unsigned long num) {
 	}
 };
 
-void UART_BT::Uart_send( int num) {
+void UART::Uart_send( int num) {
 	this->Uart_send((long) num);
 };
 
-void UART_BT::Uart_send( unsigned int num) {
+void UART::Uart_send( unsigned int num) {
 	this->Uart_send(( unsigned long) num);
 };

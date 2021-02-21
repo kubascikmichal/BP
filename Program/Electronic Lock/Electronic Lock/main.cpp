@@ -15,7 +15,8 @@
 
 int main(void)
 {
-	
+	I2C i2c;
+	UART uart;
     while (1) 
     {
     }

@@ -11,31 +11,25 @@
 // default constructor
 PN532::PN532()
 {
-	this->i2c = new I2C(SDA_PIN, SCL_PIN);
-	this->uart = new UART();
+	this->mode = Mode::ALL_MODES_POSSIBLE;
 } //PN532
 
- PN532::PN532(UART* pUART)
+ PN532::PN532(UART pUART)
  {
-	this->i2c = nullptr;
+	//this->i2c = 0;
 	this->uart = pUART;
-	this->mode = Mode.UART;
+	this->mode = Mode::UART_MODE;
  }
 
- PN532::PN532(I2C* pI2C)
+ PN532::PN532(I2C pI2C)
  {
-	this->uart = nullptr;
+	//this->uart = 0;
 	this->i2c = pI2C;
-	this->mode = Mode.I2C;
+	this->mode = Mode::I2C_MODE;
  }
 
 // default destructor
 PN532::~PN532()
 {
-	if(this->i2c) {
-		delete this->i2c;
-	}
-	if(this->uart) {
-		delete this->i2c;
-	}
+	
 } //~PN532

@@ -159,10 +159,16 @@
     <Compile Include="Headers\Board.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Headers\Commands.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Headers\EEPROM.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Headers\I2C.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Headers\Modes.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Headers\LED.h">
