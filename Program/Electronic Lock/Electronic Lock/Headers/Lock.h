@@ -22,6 +22,11 @@ private:
 public:
 	Lock();
 	~Lock();
+	
+	void lock();
+	void unlock();
+	bool getState(); //?
+	
 protected:
 private:
 

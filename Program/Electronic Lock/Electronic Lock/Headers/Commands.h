@@ -9,7 +9,9 @@
 #ifndef COMMANDS_H_
 #define COMMANDS_H_
 
+//TODO: PN532 command messages
 
+//TODO: ATWIN command messages
 
 
 

@@ -11,6 +11,17 @@
 #ifndef BOARD_H_
 #define BOARD_H_
 
+#ifndef F_CPU
+#define F_CPU 12000000UL
+#endif
+
+//#define SCL_CLK 20000L						//je to nutne ?  
+//#define BITRATE ((F_CPU/SCL_CLK)-16)/2		//co to robi ? pri I2C ? spytat sa Miceka
+
+#define sbi(x,y) x |= (1<<y)	//set bit
+#define cbi(x,y) x &= ~(1<<y)   //clear bit
+#define tbi(x,y) x ^= _BV(y)    //zmen bit
+
 #define IRQ_PIN PORTB0			//IRQ signal of PN532 module
 
 #define LED_R PORTC2			//Red RGB pin
