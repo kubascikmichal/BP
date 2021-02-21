@@ -5,12 +5,17 @@
  * Author : Michal Kubascik
  */ 
 
-#include <avr/io.h>
+#include "Headers/ATWIN.h"
+#include "Headers/Board.h"
+#include "Headers/EEPROM.h"
+#include "Headers/LED.h"
+#include "Headers/Lock.h"
+#include "Headers/PN532.h"
 
 
 int main(void)
 {
-    /* Replace with your application code */
+	
     while (1) 
     {
     }

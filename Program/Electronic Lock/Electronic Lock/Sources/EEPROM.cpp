@@ -6,7 +6,7 @@
 */
 
 
-#include "EEPROM.h"
+#include "../Headers/EEPROM.h"
 
 // default constructor
 EEPROM::EEPROM()

@@ -10,6 +10,7 @@
 #define __ATWIN_H__
 
 #include "Board.h"
+#include "../Headers/I2C.h"
 
 class ATWIN
 {
@@ -17,7 +18,8 @@ class ATWIN
 public:
 protected:
 private:
-
+	I2C i2c;
+	
 //functions
 public:
 	ATWIN();
