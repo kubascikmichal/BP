@@ -2,13 +2,16 @@
 * PN532.h
 *
 * Created: 21. 2. 2021 14:07:06
-* Author: micha
+* Author: Michal Kubascik
 */
 
 
 #ifndef __PN532_H__
 #define __PN532_H__
 
+//defining all comands
+
+#include "Board.h"
 
 class PN532
 {
@@ -23,8 +26,8 @@ public:
 	~PN532();
 protected:
 private:
-	PN532( const PN532 &c );
-	PN532& operator=( const PN532 &c );
+
+	 uint8_t mode;			//defines, what mode will be used - I2C, SPI or UART
 
 }; //PN532
 

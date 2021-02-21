@@ -2,11 +2,11 @@
 * LED.cpp
 *
 * Created: 21. 2. 2021 14:07:42
-* Author: micha
+* Author: Michal Kubascik
 */
 
 
-#include "LED.h"
+#include "../Headers/LED.h"
 
 // default constructor
 LED::LED()

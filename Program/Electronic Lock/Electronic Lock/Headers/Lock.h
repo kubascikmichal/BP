@@ -2,13 +2,14 @@
 * Lock.h
 *
 * Created: 21. 2. 2021 14:07:25
-* Author: micha
+* Author: Michal Kubascik
 */
 
 
 #ifndef __LOCK_H__
 #define __LOCK_H__
 
+#include "Board.h"
 
 class Lock
 {
@@ -23,8 +24,6 @@ public:
 	~Lock();
 protected:
 private:
-	Lock( const Lock &c );
-	Lock& operator=( const Lock &c );
 
 }; //Lock
 

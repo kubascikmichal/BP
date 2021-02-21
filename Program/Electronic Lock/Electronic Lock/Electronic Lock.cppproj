@@ -153,7 +153,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Headers\ATWIN.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Headers\Board.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Headers\I2C.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Headers\LED.h">
@@ -165,7 +171,16 @@
     <Compile Include="Headers\PN532.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Headers\UART.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\ATWIN.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\I2C.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\LED.cpp">
@@ -175,6 +190,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\PN532.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\UART.cpp">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

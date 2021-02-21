@@ -1,3 +1,7 @@
 *.dxf
 *.svg
 /3D data/
+*.d
+*.o
+*.mk
+/Program/Electronic Lock/Electronic Lock/Debug/

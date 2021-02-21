@@ -2,11 +2,11 @@
 * PN532.cpp
 *
 * Created: 21. 2. 2021 14:07:06
-* Author: micha
+* Author: Michal Kubascik
 */
 
 
-#include "PN532.h"
+#include "../Headers/PN532.h"
 
 // default constructor
 PN532::PN532()

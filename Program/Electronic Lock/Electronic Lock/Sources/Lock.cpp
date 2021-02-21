@@ -2,11 +2,11 @@
 * Lock.cpp
 *
 * Created: 21. 2. 2021 14:07:25
-* Author: micha
+* Author: Michal Kubascik
 */
 
 
-#include "Lock.h"
+#include "../Headers/Lock.h"
 
 // default constructor
 Lock::Lock()

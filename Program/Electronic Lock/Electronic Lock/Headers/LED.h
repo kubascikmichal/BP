@@ -2,13 +2,14 @@
 * LED.h
 *
 * Created: 21. 2. 2021 14:07:42
-* Author: micha
+* Author: Michal Kubascik
 */
 
 
 #ifndef __LED_H__
 #define __LED_H__
 
+#include "Board.h"
 
 class LED
 {
@@ -23,8 +24,6 @@ public:
 	~LED();
 protected:
 private:
-	LED( const LED &c );
-	LED& operator=( const LED &c );
 
 }; //LED
 
