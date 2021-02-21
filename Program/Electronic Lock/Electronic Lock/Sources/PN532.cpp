@@ -33,3 +33,13 @@ PN532::~PN532()
 {
 	
 } //~PN532
+
+void PN532::init_communication(I2C pI2C)
+{
+
+}
+
+void PN532::init_communication(UART uart)
+{
+
+}

@@ -8,7 +8,7 @@
 
 #ifndef __I2C_H__
 #define __I2C_H__
-
+#include "Board.h"
 
 class I2C
 {
@@ -16,18 +16,18 @@ class I2C
 public:
 protected:
 private:
+	int sda;
+	int scl;
 
 //functions
 public:
 	I2C();
 	~I2C();
 	
-	I2C(int sda, int scl);
+	void init();
 	
 protected:
 private:
-	int sda;
-	int scl;
 
 }; //I2C
 

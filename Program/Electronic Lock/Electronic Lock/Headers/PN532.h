@@ -9,7 +9,6 @@
 #ifndef __PN532_H__
 #define __PN532_H__
 
-#include "Board.h"
 #include "UART.h"
 #include "I2C.h"
 #include "Commands.h"
@@ -29,9 +28,11 @@ private:
 public:
 	PN532();
 	~PN532();
-	
-	PN532(I2C pI2C);
 	PN532(UART pUART);
+	PN532(I2C i2c);
+	
+	void init_communication(I2C pI2C);
+	void init_communication(UART uart);
 	
 protected:
 private:			//object of UART for communication via UART

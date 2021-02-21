@@ -17,7 +17,7 @@ UART::UART(){
 UART::~UART(){
 	PRR |= (1<<PRUSART0);
 } //~UART
-void UART::Uart_init(void)
+void UART::init(void)
 {
 	DDRD |=(1<<PORTD1);					// Tx output
 	DDRD &=~(1<<PORTD0);				// Rx input
@@ -28,39 +28,39 @@ void UART::Uart_init(void)
 	UCSR0A |= (1<<U2X0);
 };
 
-void UART::Uart_send_char(uint8_t x)
+void UART::sendChar(uint8_t x)
 {
 	while(!(UCSR0A& (1<<UDRE0))){};    // caka na uvolnenie UDR
 	UDR0 = x;
 };
 
-uint8_t UART::Uart_rec_char(void)
+uint8_t UART::recieveChar(void)
 {
 	while(!(UCSR0A& (1<<RXC0))){};  //return '0';  // pozor uprava: necaka na prijem
 	return UDR0;
 };
 
 
-void UART::Uart_send_bytes(char* data, const uint8_t len)
+void UART::sendBytes(char* data, const uint8_t len)
 {
-	for(uint8_t i=0; i < len; i++) this->Uart_send_char(*(data++));
+	for(uint8_t i=0; i < len; i++) this->sendChar(*(data++));
 };
 
-void UART::Uart_send( const char* data) {
+void UART::send( const char* data) {
 	for ( const char* s = data; *s; ++s) {
-		this->Uart_send_char( *s);
+		this->sendChar( *s);
 	}
 };
 
-void UART::Uart_send( long num) {
+void UART::send( long num) {
 	if ( num < 0) {
-		this->Uart_send_char( '-');
+		this->sendChar( '-');
 		num = -num;
 	}
-	this->Uart_send( ( unsigned long) num);
+	this->send( ( unsigned long) num);
 };
 
-void UART::Uart_send( unsigned long num) {
+void UART::send( unsigned long num) {
 	// max pocet signed/unsigned long je 10
 	char digits[10];
 	uint8_t len = 0;
@@ -69,14 +69,14 @@ void UART::Uart_send( unsigned long num) {
 		len++;
 	} while ( num /= 10);
 	while ( len > 0) {
-		this->Uart_send_char( digits[--len]);
+		this->sendChar( digits[--len]);
 	}
 };
 
-void UART::Uart_send( int num) {
-	this->Uart_send((long) num);
+void UART::send( int num) {
+	this->send((long) num);
 };
 
-void UART::Uart_send( unsigned int num) {
-	this->Uart_send(( unsigned long) num);
+void UART::send( unsigned int num) {
+	this->send(( unsigned long) num);
 };

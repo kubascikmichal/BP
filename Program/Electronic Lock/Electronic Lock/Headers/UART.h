@@ -23,17 +23,17 @@ public:
 	UART();
 	~UART();
 	
-	void Uart_init(void);
+	void init(void);
 
-	void Uart_send_char(uint8_t x);
-	uint8_t Uart_rec_char(void);
+	void sendChar(uint8_t x);
+	uint8_t recieveChar(void);
 
-	void Uart_send_bytes(char* data, const uint8_t len);
-	void Uart_send( const char* data);
-	void Uart_send( long num);
-	void Uart_send( unsigned long num);
-	void Uart_send( int num);
-	void Uart_send( unsigned int num);
+	void sendBytes(char* data, const uint8_t len);
+	void send( const char* data);
+	void send( long num);
+	void send( unsigned long num);
+	void send( int num);
+	void send( unsigned int num);
 protected:
 private:
 

@@ -9,16 +9,18 @@
 #include "../Headers/I2C.h"
 
 // default constructor
-I2C::I2C()
-{
+I2C::I2C(){
+	this->sda = SDA_PIN;
+	this->scl = SCL_PIN;
 } //I2C
 
- I2C::I2C(int sda, int scl) {
-	this->sda = sda;
-	this->scl = scl;
- }
-
 // default destructor
-I2C::~I2C()
-{
+I2C::~I2C(){
+
 } //~I2C
+ 
+void I2C::init(){
+	
+}
+
+
