@@ -23,6 +23,7 @@ public:
 	~I2C();
 	
 	I2C(int sda, int scl);
+	
 protected:
 private:
 	int sda;
