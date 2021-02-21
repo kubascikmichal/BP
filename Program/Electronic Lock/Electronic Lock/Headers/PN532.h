@@ -12,6 +12,8 @@
 //defining all comands
 
 #include "Board.h"
+#include "UART.h"
+#include "I2C.h"
 
 class PN532
 {
@@ -26,8 +28,9 @@ public:
 	~PN532();
 protected:
 private:
-
 	 uint8_t mode;			//defines, what mode will be used - I2C, SPI or UART
+	 I2C i2c;
+	 UART uart;
 
 }; //PN532
 
