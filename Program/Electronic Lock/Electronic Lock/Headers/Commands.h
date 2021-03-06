@@ -9,8 +9,13 @@
 #ifndef COMMANDS_H_
 #define COMMANDS_H_
 
+
 //TODO: PN532 command messages
 //https://www.nxp.com/docs/en/user-guide/141520.pdf
+
+//I2C slave addresses
+#define PN532_ADDRESS					0x48
+#define ATWIN_ADDRESS 
 
 //Miscellaneous
 #define PN532_DIAGNOSE					0x00
@@ -54,7 +59,6 @@
 
 //Error codes
 //TODO: ATWIN command messages
-
 
 
 #endif /* COMMANDS_H_ */

@@ -22,6 +22,8 @@ private:
 public:
 	LED();
 	~LED();
+	
+	void light(bool r, bool g, bool b, uint8_t time);
 protected:
 private:
 

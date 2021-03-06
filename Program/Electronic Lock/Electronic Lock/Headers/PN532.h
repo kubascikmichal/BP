@@ -20,22 +20,23 @@ class PN532
 public:
 protected:
 private:
-	 Mode::Mode mode;			//defines, what mode will be used - I2C, SPI or UART
 	 I2C i2c;				//object of I2C for communication via I2C bus
-	 UART uart;	
-
 //functions
 public:
 	PN532();
 	~PN532();
-	PN532(UART pUART);
-	PN532(I2C i2c);
 	
-	void init_communication(I2C pI2C);
-	void init_communication(UART uart);
+	inline void initI2C(I2C i2c) {this->i2c = i2c;}
 	
 protected:
-private:			//object of UART for communication via UART
+private:
+	uint8_t writeCommand(const uint8_t *header, uint8_t hlen, const uint8_t *body = 0, uint8_t blen = 0);
+	int16_t readResponse(uint8_t buf[], uint8_t len, uint16_t timeout);
+// 	
+// 	inline void uint8_t write(uint8_t data) { this->i2c.write(data); }
+// 	inline uint8_t read() { this->i2c.receive(); }
+		
+				
 }; //PN532
 
 #endif //__PN532_H__
