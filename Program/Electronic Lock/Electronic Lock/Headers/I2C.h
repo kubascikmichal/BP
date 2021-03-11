@@ -45,14 +45,14 @@ public:
 	uint16_t master_transmit(uint8_t slave_addr, uint8_t* p_data, uint8_t len, bool repeat_start);
 	uint16_t master_receive(uint8_t slave_addr, uint8_t* p_data, uint8_t len);
 	uint8_t test();
-	
-protected:
-private:
+	uint16_t write(uint8_t data);
+	uint16_t read(bool read_ack);
 	uint16_t start();
 	uint16_t stop();
 	uint16_t write_sla(uint8_t slaveAddress);
-	uint16_t write(uint8_t data);
-	uint16_t read(bool read_ack);
+protected:
+private:
+
 	
 }; //I2C
 

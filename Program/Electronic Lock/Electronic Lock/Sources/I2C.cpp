@@ -106,6 +106,7 @@ uint16_t I2C::start(){
 uint16_t I2C::stop(){
 	TWCR = 0;
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
+	return 0;
 }
 
 uint16_t I2C::write_sla(uint8_t slaveAddress){
@@ -155,4 +156,5 @@ uint8_t I2C::test() {
 	start();
 	write((0x48 << 1) | 1);
 	stop();
+	return 0;
 }

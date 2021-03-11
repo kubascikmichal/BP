@@ -6,15 +6,17 @@
  */ 
 
 //#include "avr/delay.h"
+#ifndef F_CPU
+#define F_CPU 12000000UL
+#endif
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
+#define DEBG 1
 
 #ifndef BOARD_H_
 #define BOARD_H_
 
-#ifndef F_CPU
-#define F_CPU 12000000UL
-#endif
+
 
 
 #define sbi(x,y) x |= (1<<y)	//set bit
@@ -37,8 +39,9 @@
 
 #define LOCK_PIN PORTD2			//Lock pin - output(1 - lock is open, 0 - lock is closed)
 
-#define UBRR_VALUE 9600			//Baudrate for UART communication with PN532
-
-
+#define TXD PORTD1
+#define RXD PORTD0
+#define BAUDERATE	9600  //115200	//1200
+#define UBRR_VALUE ((F_CPU / (BAUDERATE * 8L)) -1)
 
 #endif /* BOARD_H_ */

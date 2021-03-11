@@ -190,7 +190,7 @@
     <Compile Include="Headers\Commands.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Headers\EEPROM.h">
+    <Compile Include="Headers\Management.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Headers\I2C.h">
@@ -217,7 +217,7 @@
     <Compile Include="Sources\ATWIN.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\EEPROM.cpp">
+    <Compile Include="Sources\Management.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\I2C.cpp">
