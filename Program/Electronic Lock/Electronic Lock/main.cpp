@@ -45,6 +45,11 @@ int main(void)
 	}
 	mng.addCard(&uid);
 	
+	for(uint8_t i = 0; i < UID_LEN; i++) {
+		uid[i] = i*10+1;
+	}
+	mng.removeCard(&uid);
+	
 	MANAGEMENT::cUID *c = mng.getAdmin();
 	
 	for(uint8_t i = 0; i < UID_LEN; i++) {

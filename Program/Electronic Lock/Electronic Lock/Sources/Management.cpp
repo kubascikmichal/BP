@@ -70,12 +70,23 @@ bool MANAGEMENT::removeCard(cUID* uid){
 		return false;
 	}
 	memcpy(&(this->cards[index]), &(this->cards[--countOfCards]), UID_LEN);
+	EEPROM_WAIT
+	eeprom_write_byte(COUNT_ADD, countOfCards);
 	
 	u.send("\n\r-------------------\n\r");
 	u.send(countOfCards);u.send("\n\r-------------------\n\r");
 	u.send(index);u.send("\n\r-------------------\n\r");
+	u.send(APPROVED_ADD(index));u.send("\n\r-------------------\n\r");
+	u.send(APPROVED_ADD((countOfCards+1)));u.send("\n\r-------------------\n\r");
+	cUID tmp;
 	EEPROM_WAIT
-	eeprom_write_block((void*) APPROVED_ADD(countOfCards+1), (void*) APPROVED_ADD(index), UID_LEN);
+	eeprom_read_block(&tmp, (void*) APPROVED_ADD((countOfCards)), UID_LEN);
+	EEPROM_WAIT
+	eeprom_write_block(&tmp, (void*) APPROVED_ADD(index), UID_LEN);
+	EEPROM_WAIT
+	eeprom_read_block(&tmp, (void*) APPROVED_ADD((countOfCards+1)), UID_LEN);
+	EEPROM_WAIT
+	eeprom_write_block(&tmp, (void*) APPROVED_ADD(countOfCards), UID_LEN);
 	return true;
 }
 
