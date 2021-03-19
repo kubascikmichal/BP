@@ -1,4 +1,4 @@
-/* 
+/*
 * PN532.cpp
 *
 * Created: 21. 2. 2021 14:07:06
@@ -13,10 +13,21 @@ PN532::PN532(){
 	
 } //PN532
 
- 
+
 PN532::~PN532(){
 	
 } //~PN532
+bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout){
+
+}
+
+uint8_t PN532::setSAMConfig()
+{
+
+}
+
+uint32_t PN532::getFirmwareVersion(){
+}
 
 bool PN532::wakeup(){
 	u.sendChar(0x55);
@@ -27,93 +38,135 @@ bool PN532::wakeup(){
 	
 	u.recieveChar();
 }
-
-bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout){
-  pn532_packetbuffer[0] = PN532_COMMAND_INLISTPASSIVETARGET;
-  pn532_packetbuffer[1] = 1; // max 1 cards at once (we can set this to 2 later)
-  pn532_packetbuffer[2] = cardbaudrate;
-  
-	if(!i2c.master_transmit(PN532_ADDRESS, pn532_packetbuffer, 3, false)){
-	return 0x00;  
-	}
-	
-	i2c.master_receive(PN532_ADDRESS, pn532_packetbuffer, 20);
-	if(pn532_packetbuffer[7] !=1) {
-		return 0;
-	} else {
-		return 1;
-	}
-}
-
-uint8_t PN532::setSAMConfig()
+uint8_t PN532::writeCommand( uint8_t *header, uint8_t hlen,  uint8_t *body /*= 0*/, uint8_t blen /*= 0*/)
 {
-	  pn532_packetbuffer[0] = PN532_COMMAND_SAMCONFIGURATION;
-	  pn532_packetbuffer[1] = 0x01; // normal mode;
-	  pn532_packetbuffer[2] = 0x14; // timeout 50ms * 20 = 1 second
-	  pn532_packetbuffer[3] = 0x01; // use IRQ pin!
-
-	  writeData(pn532_packetbuffer, 4);
-	  // read data packet
-	  //i2c.master_receive(PN532_ADDRESS, pn532_packetbuffer, 8);
-	  int offset = 6;
-	  return (pn532_packetbuffer[offset] == 0x15);
-
-}
-
-uint32_t PN532::getFirmwareVersion(){
-uint32_t response = 0;
-
-pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
-
-	i2c.start();
-	i2c.write_sla(SLA_W_ADD(PN532_ADDRESS));
-	i2c.write(PN532_PREAMBLE);
-	i2c.write(PN532_PREAMBLE);
-	i2c.write(PN532_STARTCODE2);
-	i2c.write(2);
-	i2c.write(~1 + 1);
-	i2c.write(PN532_HOSTTOPN532);
-	uint8_t checksum;
-	i2c.write(PN532_COMMAND_GETFIRMWAREVERSION);
-	checksum = PN532_PREAMBLE+PN532_PREAMBLE+PN532_STARTCODE2+PN532_HOSTTOPN532;
-	checksum+=PN532_COMMAND_GETFIRMWAREVERSION;
-	i2c.write(~checksum);
-	i2c.write(PN532_POSTAMBLE);
-	i2c.stop();
-	i2c.master_receive(PN532_ADDRESS, pn532_packetbuffer, 12);
+	this->command = header[0];
 	
-	int offset = 7;
-	response = pn532_packetbuffer[offset++];
-	response <<= 8;
-	response |= pn532_packetbuffer[offset++];
-	response <<= 8;
-	response |= pn532_packetbuffer[offset++];
-	response <<= 8;
-	response |= pn532_packetbuffer[offset++];
-	return response;
+	u.sendChar(PN532_PREAMBLE);
+	u.sendChar(PN532_STARTCODE1);
+	u.sendChar(PN532_STARTCODE2);
+	
+	uint8_t length = hlen + blen + 1;   // length of data field: TFI + DATA
+	u.sendChar(length);
+	u.sendChar(~length + 1);         // checksum of length
+	
+	u.sendChar(PN532_HOSTTOPN532);
+	uint8_t sum = PN532_HOSTTOPN532;
+	
+	u.sendBytes(header, hlen);
+	
+	for (uint8_t i = 0; i < hlen; i++) {
+		sum += header[i];
+	}
+	
+	u.sendBytes(body, blen);
+	
+	for (uint8_t i = 0; i < blen; i++) {
+		sum += body[i];
+	}
+	
+	uint8_t checksum = ~sum + 1;
+	u.sendChar(checksum);
+	u.sendChar(PN532_POSTAMBLE);
+	return readAckFrame();
+}
+
+uint16_t PN532::readResponse(uint8_t buf[], uint8_t len, uint16_t timeout)
+{
+ uint8_t tmp[3];
+  if(receive(tmp, 3, timeout)<=0){
+	  return PN532_TIMEOUT;
+  }
+  
+     if(0 != tmp[0] || 0!= tmp[1] || 0xFF != tmp[2]){
+	     return PN532_INVALID_FRAME;
+     }
+	 
+	  uint8_t length[2];
+	  if(receive(length, 2, timeout) <= 0){
+		  return PN532_TIMEOUT;
+	  }
+	  if( 0 != (uint8_t)(length[0] + length[1]) ){
+		  return PN532_INVALID_FRAME;
+	  }
+	  
+	  length[0] -= 2;
+	  if( length[0] > len){
+		  return PN532_NO_SPACE;
+	  }
+	  
+	  uint8_t cmd = command + 1;               // response command
+	  if(receive(tmp, 2, timeout) <= 0){
+		  return PN532_TIMEOUT;
+	  }
+	  if( PN532_PN532TOHOST != tmp[0] || cmd != tmp[1]){
+		  return PN532_INVALID_FRAME;
+	  }
+	  
+	  if(receive(buf, length[0], timeout) != length[0]){
+		  return PN532_TIMEOUT;
+	  }
+	  
+	  uint8_t sum = PN532_PN532TOHOST + cmd;
+	  for(uint8_t i=0; i<length[0]; i++){
+		  sum += buf[i];
+	  }
+	  
+	  /** checksum and postamble */
+	  if(receive(tmp, 2, timeout) <= 0){
+		  return PN532_TIMEOUT;
+	  }
+	  if( 0 != (uint8_t)(sum + tmp[0]) || 0 != tmp[1] ){
+		  return PN532_INVALID_FRAME;
+	  }
+	  
+	  return length[0];
+}
+
+int8_t PN532::receive(uint8_t *buf, int len, uint16_t timeout/*=1000*/)
+{
+	int read_bytes = 0;
+	int ret;
+	unsigned long start_millis;
+	
+	while (read_bytes < len) {
+		start_millis = 0;
+		do {
+			ret = u.recieveChar();
+			if (ret >= 0) {
+				break;
+			}
+			start_millis++;
+		} while((timeout == 0) || (start_millis  < timeout*F_CPU));
+		
+		if (ret < 0) {
+			if(read_bytes){
+				return read_bytes;
+				}else{
+				return PN532_TIMEOUT;
+			}
+		}
+		 buf[read_bytes] = (uint8_t)ret;
+		 read_bytes++;
+	}
+	return read_bytes;
+}
+
+int8_t PN532::readAckFrame()
+{
+	const uint8_t PN532_ACK[] = {0, 0, 0xFF, 0, 0xFF, 0};
+	uint8_t ackBuf[sizeof(PN532_ACK)];
+	
+	  if( receive(ackBuf, sizeof(PN532_ACK), PN532_ACK_WAIT_TIME) <= 0 ){
+		  return PN532_TIMEOUT;
+	  }
+	  
+	  if( memcmp(ackBuf, PN532_ACK, sizeof(PN532_ACK)) ){
+		  return PN532_INVALID_ACK;
+	  }
+	  return 0;
 }
 
 
-uint8_t PN532::writeData(uint8_t* data, uint8_t dataLength) {
-	dataLength++;
-	uint8_t checksum;
-	i2c.start();
-	i2c.write_sla(SLA_W_ADD(PN532_ADDRESS));
-	i2c.write(PN532_PREAMBLE);
-	i2c.write(PN532_PREAMBLE);
-	checksum=2*PN532_PREAMBLE;
-	i2c.write(PN532_STARTCODE2);
-	checksum+=PN532_STARTCODE2;
-	i2c.write(dataLength);
-	i2c.write(~dataLength + 1);
-	i2c.write(PN532_HOSTTOPN532);
-	checksum+=PN532_HOSTTOPN532;
-	for(int i = 0; i < dataLength; i++) {
-		i2c.write(data[i]);
-		checksum+=data[i];
-}
-	i2c.write(~checksum);
-	i2c.write(PN532_POSTAMBLE);
-	i2c.stop();
-}
+
 

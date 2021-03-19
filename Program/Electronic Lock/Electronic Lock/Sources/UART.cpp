@@ -41,7 +41,7 @@ uint8_t UART::recieveChar(void)
 };
 
 
-void UART::sendBytes(char* data, const uint8_t len)
+void UART::sendBytes(uint8_t* data, const uint8_t len)
 {
 	for(uint8_t i=0; i < len; i++) this->sendChar(*(data++));
 };

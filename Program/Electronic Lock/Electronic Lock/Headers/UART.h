@@ -28,7 +28,7 @@ public:
 	void sendChar(uint8_t x);
 	uint8_t recieveChar(void);
 
-	void sendBytes(char* data, const uint8_t len);
+	void sendBytes(uint8_t* data, const uint8_t len);
 	void send( const char* data);
 	void send( long num);
 	void send( unsigned long num);

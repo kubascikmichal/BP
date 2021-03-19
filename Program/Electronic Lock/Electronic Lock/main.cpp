@@ -21,8 +21,7 @@ int main(void)
 	uart.init();	
 	PN532 pn;
 	SoftUART s;
-	s.send("\nTrolololo\n\r");
-	s.send("Program na PN532 komunikaciu \n\r");
+	printf("trolololo\n");
 
 }
 
