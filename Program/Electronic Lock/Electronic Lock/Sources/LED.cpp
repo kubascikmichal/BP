@@ -10,9 +10,9 @@
 
 // default constructor
 LED::LED(){
-	sbi(DDRD, LED_R);
-	sbi(DDRD, LED_G);
-	sbi(DDRD, LED_B);
+	sbi(DDRC, LED_R);
+	sbi(DDRC, LED_G);
+	sbi(DDRC, LED_B);
 } //LED
 
 // default destructor
@@ -21,16 +21,16 @@ LED::~LED()
 } //~LED
 
 void LED::light(bool r, bool g, bool b, uint8_t time){
-	(r) ? cbi(PORTD, LED_R) : sbi(PORTD, LED_R);
-	(g) ? cbi(PORTD, LED_G) : sbi(PORTD, LED_G);
-	(b) ? cbi(PORTD, LED_B) : sbi(PORTD, LED_B);
+	(!r) ? cbi(PORTC, LED_R) : sbi(PORTC, LED_R);
+	(!g) ? cbi(PORTC, LED_G) : sbi(PORTC, LED_G);
+	(!b) ? cbi(PORTC, LED_B) : sbi(PORTC, LED_B);
 	
 	for (int i = 0; i < time; i++)
 	{
-		_delay_ms(100);
+		_delay_ms(1000);
 	}
 	
-	sbi(PORTD, LED_R);
-	sbi(PORTD, LED_G);
-	sbi(PORTD, LED_B);
+	cbi(PORTC, LED_R);
+	cbi(PORTC, LED_G);
+	cbi(PORTC, LED_B);
 }

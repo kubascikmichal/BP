@@ -18,6 +18,16 @@ PN532::~PN532(){
 	
 } //~PN532
 
+bool PN532::wakeup(){
+	u.sendChar(0x55);
+	u.sendChar(0x55);
+	u.sendChar(0);
+	u.sendChar(0);
+	u.sendChar(0);
+	
+	u.recieveChar();
+}
+
 bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout){
   pn532_packetbuffer[0] = PN532_COMMAND_INLISTPASSIVETARGET;
   pn532_packetbuffer[1] = 1; // max 1 cards at once (we can set this to 2 later)
