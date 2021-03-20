@@ -17,11 +17,18 @@
 
 int main(void)
 {
-	UART uart;
-	uart.init();	
-	PN532 pn;
 	SoftUART s;
-	printf("trolololo\n");
-
+	printf("Hello\n");
+	DDRD = 1<<PORTD2;
+	cbi(PORTD, PORTD2);
+	_delay_ms(1000);
+	sbi(PORTD, PORTD2);
+	_delay_ms(1000);
+	UART uart;
+	PN532 pn;
+	pn.start();
+	if(pn.getFirmwareVersion() != 0) {
+		
+	}
 }
 

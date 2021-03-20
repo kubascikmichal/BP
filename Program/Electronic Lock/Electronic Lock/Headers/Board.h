@@ -7,7 +7,7 @@
 
 //#include "avr/delay.h"
 //#define F_CPU
-#define F_CPU 1000000UL
+#define F_CPU 12000000UL
 //#endif
 #include <avr/io.h>
 #include <stdio.h>
@@ -44,7 +44,7 @@
 
 #define TXD PORTD1
 #define RXD PORTD0
-#define BAUDERATE	115200  //9600	//1200
+#define BAUDERATE	115200  //115200	//1200
 #define UBRR_VALUE ((F_CPU / (BAUDERATE * 8L)) -1)
 
 #endif /* BOARD_H_ */

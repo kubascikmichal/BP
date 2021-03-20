@@ -1,9 +1,9 @@
-/* 
+/*
 * PN532.h
 *
 * Created: 21. 2. 2021 14:07:06
 * Author: Michal Kubascik
-* based on Adafruit PN532 
+* based on Adafruit PN532
 */
 
 
@@ -21,30 +21,33 @@
 #include "Commands.h"
 class PN532
 {
-//variables
-public:
-protected:
-private:
-	 //I2C i2c;
-	 UART u;				
-	 uint8_t command;
-	 
-//functions
-public:
+	//variables
+	public:
+	protected:
+	private:
+	//I2C i2c;
+	UART u;
+	uint8_t command;
+	uint8_t pn532_packetbuffer[64];
+	
+	//functions
+	public:
 	PN532();
 	~PN532();
 	
+	bool begin(uint8_t baudrate);
+	bool start();
 	bool wakeup();
 	inline void initUart(UART u) {this->u = u;}
 	bool readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout);
 	uint8_t setSAMConfig();
 	uint32_t getFirmwareVersion();
-protected:
-private:
+	protected:
+	private:
 	
 	uint8_t writeCommand( uint8_t *header, uint8_t hlen,  uint8_t *body = 0, uint8_t blen = 0);
-	uint16_t readResponse(uint8_t buf[], uint8_t len, uint16_t timeout);
-				
+	uint16_t readResponse(uint8_t buf[], uint8_t len, uint16_t timeout = PN532_HSU_READ_TIMEOUT);
+	
 	int8_t receive(uint8_t *buf, int len, uint16_t timeout=1000);
 	int8_t readAckFrame();
 }; //PN532

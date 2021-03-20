@@ -11,6 +11,7 @@
 // default constructor
 UART::UART(){
 	PRR &= ~(1<<PRUSART0);
+	this->init();
 } //UART
 
 // default destructor
@@ -21,7 +22,7 @@ void UART::init(void)
 {
 	DDRD |=(1<<PORTD1);					// Tx output
 	DDRD &=~(1<<PORTD0);				// Rx input
-	UBRR0H = (uint8_t)(UBRR_VALUE>>8);	// BAUDERATE  v Board_Solara.h
+	UBRR0H = (uint8_t)(UBRR_VALUE>>8);	// BAUDERATE
 	UBRR0L = (uint8_t)UBRR_VALUE;
 	UCSR0C |= (1<<UCSZ01)|(1<<UCSZ00);  //8 bits, parit non, 1 stop
 	UCSR0B |= (1<<RXEN0)|(1<<TXEN0);	// enable rx a tx

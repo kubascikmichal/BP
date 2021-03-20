@@ -7,9 +7,8 @@
 
 
 #include "../Headers/Management.h"
-#include "../Headers/UART.h"
 
-UART u;
+//UART u;
 // default constructor
 MANAGEMENT::MANAGEMENT(){
 	countOfCards = 0;
@@ -73,11 +72,11 @@ bool MANAGEMENT::removeCard(cUID* uid){
 	EEPROM_WAIT
 	eeprom_write_byte(COUNT_ADD, countOfCards);
 	
-	u.send("\n\r-------------------\n\r");
-	u.send(countOfCards);u.send("\n\r-------------------\n\r");
-	u.send(index);u.send("\n\r-------------------\n\r");
-	u.send(APPROVED_ADD(index));u.send("\n\r-------------------\n\r");
-	u.send(APPROVED_ADD((countOfCards+1)));u.send("\n\r-------------------\n\r");
+// 	u.send("\n\r-------------------\n\r");
+// 	u.send(countOfCards);u.send("\n\r-------------------\n\r");
+// 	u.send(index);u.send("\n\r-------------------\n\r");
+// 	u.send(APPROVED_ADD(index));u.send("\n\r-------------------\n\r");
+// 	u.send(APPROVED_ADD((countOfCards+1)));u.send("\n\r-------------------\n\r");
 	cUID tmp;
 	EEPROM_WAIT
 	eeprom_read_block(&tmp, (void*) APPROVED_ADD((countOfCards)), UID_LEN);
