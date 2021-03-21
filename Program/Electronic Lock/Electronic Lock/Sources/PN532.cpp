@@ -19,12 +19,54 @@ PN532::PN532(){
 PN532::~PN532(){
 	
 } //~PN532
-bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout){
-
+
+bool PN532::setPassiveActivationRetries(uint8_t maxret){
+	pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+	pn532_packetbuffer[1] = 5;    // Config item 5 (MaxRetries)
+	pn532_packetbuffer[2] = 0xFF; // MxRtyATR (default = 0xFF)
+	pn532_packetbuffer[3] = 0x01; // MxRtyPSL (default = 0x01)
+	pn532_packetbuffer[4] = maxret;
+	
+	if(writeCommand(pn532_packetbuffer, 5))
+		return 0;
+	
+	return(0<readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer)));
 }
 
-uint8_t PN532::setSAMConfig()
-{
+bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout){
+	pn532_packetbuffer[0] = PN532_COMMAND_INLISTPASSIVETARGET;
+	pn532_packetbuffer[1] = 1;  // max 1 cards at once (we can set this to 2 later)
+	pn532_packetbuffer[2] = cardbaudrate;
+	if(writeCommand(pn532_packetbuffer, 3)) {
+		return 0;
+	}
+	
+	if(readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer)) < 0) {
+		return 0;
+	}
+	printf("stonks\n");
+	if(pn532_packetbuffer[0] != 1)
+		return 0;
+	*uidLength = pn532_packetbuffer[5];
+	for(uint8_t i = 0; i < *uidLength; i++) {
+		uid[i] = pn532_packetbuffer[6 + i];
+	}
+	
+	return 1;
+}
+
+uint8_t PN532::setSAMConfig(){		pn532_packetbuffer[0] = PN532_COMMAND_SAMCONFIGURATION;
+	pn532_packetbuffer[1] = 0x01; // normal mode;
+	pn532_packetbuffer[2] = 0x14; // timeout 50ms * 20 = 1 second
+	pn532_packetbuffer[3] = 0x01; // use IRQ pin!
+
+	if(writeCommand(pn532_packetbuffer, 4))
+		return 0;
+		
+	uint8_t t = readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer));
+	
+	printf("I have done everything\n");
+	return t; 
 
 }
 
@@ -47,7 +89,6 @@ uint32_t PN532::getFirmwareVersion(){	uint32_t response;
 	response |= pn532_packetbuffer[2];
 	response <<=8;
 	response |= pn532_packetbuffer[3];
-	printf("%#08x", (response>>24 & 0xFF));
 	return response;
 }
 

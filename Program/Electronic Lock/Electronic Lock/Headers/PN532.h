@@ -39,7 +39,8 @@ class PN532
 	bool start();
 	bool wakeup();
 	inline void initUart(UART u) {this->u = u;}
-	bool readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout);
+	bool setPassiveActivationRetries(uint8_t maxret);
+	bool readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout = PN532_HSU_READ_TIMEOUT);
 	uint8_t setSAMConfig();
 	uint32_t getFirmwareVersion();
 	protected:
