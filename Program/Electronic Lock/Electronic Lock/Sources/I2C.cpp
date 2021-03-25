@@ -21,9 +21,7 @@ I2C::~I2C() {
 }
 
 void I2C::init(){
-	// atmel Datasheet p232
 	TWSR &= ~((1 << TWPS1) | (1 << TWPS0));
-	// atmel Datasheet p212
 	TWBR = (uint8_t)TWBR_val;
 }
 
@@ -104,7 +102,6 @@ uint16_t I2C::start(){
 }
 
 uint16_t I2C::stop(){
-	TWCR = 0;
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 	return 0;
 }
@@ -115,9 +112,9 @@ uint16_t I2C::write_sla(uint8_t slaveAddress){
 	
 	/* Wait for TWINT flag to set */
 	while (!(TWCR & (1<<TWINT)));
-	// 	if (TW_STATUS != TW_MT_SLA_ACK && TW_STATUS != TW_MR_SLA_ACK){
-	// 		return TW_STATUS;
-	// 	}
+	if (TW_STATUS != TW_MT_SLA_ACK && TW_STATUS != TW_MR_SLA_ACK){
+		return TW_STATUS;
+	}
 	return 0;
 }
 
@@ -154,7 +151,9 @@ uint16_t I2C::read(bool read_ack){
 }
 uint8_t I2C::test() {
 	start();
-	write((0x48 << 1) | 1);
+	write((0x48 >> 1));
+	uint8_t t = TW_STATUS;
 	stop();
-	return 0;
+	_delay_ms(10);
+	return t;
 }

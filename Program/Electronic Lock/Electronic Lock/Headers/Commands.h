@@ -11,7 +11,6 @@
 
 //I2C slave addresses
 #define PN532_ADDRESS					0x48
-#define ATWIN_ADDRESS
 
 //TODO: PN532 command messages
 //https://www.nxp.com/docs/en/user-guide/141520.pdf
