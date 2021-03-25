@@ -65,15 +65,13 @@ int main(void)
 				mng.addCard(&uid);
 				//get blue-green-led three times blink
 				l.ALLoff();
-				for (int i = 0; i < 3; i++)	{
+				for (int i = 0; i < 5; i++)	{
 					l.BLUEon();
-					_delay_ms(500);
+					_delay_ms(200);
 					l.BLUEoff();
-					_delay_ms(500);
 					l.GREENon();
-					_delay_ms(500);
+					_delay_ms(200);
 					l.GREENoff();
-					_delay_ms(500);
 				}
 				} else {
 				printf("I have admin \n");
@@ -88,30 +86,26 @@ int main(void)
 							mng.removeCard(&uid);
 							//two red-orange blink blink
 							l.ALLoff();
-							for (int i = 0; i < 3; i++)	{
+							for (int i = 0; i < 5; i++)	{
 								l.REDon();
-								_delay_ms(500);
+								_delay_ms(200);
 								l.REDoff();
-								_delay_ms(500);
 								l.ORANGEon();
-								_delay_ms(500);
+								_delay_ms(200);
 								l.ORANGEoff();
-								_delay_ms(500);
 							}
 							} else{
 							printf("adding card\n");
 							mng.addCard(&uid);
 							//two green-orange blink blink
 							l.ALLoff();
-							for (int i = 0; i < 3; i++)	{
+							for (int i = 0; i < 5; i++)	{
 								l.GREENon();
-								_delay_ms(500);
+								_delay_ms(200);
 								l.GREENoff();
-								_delay_ms(500);
 								l.ORANGEon();
-								_delay_ms(500);
+								_delay_ms(200);
 								l.ORANGEoff();
-								_delay_ms(500);
 							}
 						}
 						
@@ -122,22 +116,22 @@ int main(void)
 							//blinking red for 10 seconds - so 20 times probably - beside lock is closed
 							l.ALLoff();
 							//lock lock
-							for (int i = 0; i < 10; i++)	{
+							for (int i = 0; i < 15; i++)	{
 								l.REDon();
-								_delay_ms(500);
+								_delay_ms(300);
 								l.REDoff();
-								_delay_ms(500);
+								_delay_ms(300);
 							}
 							} else {
 							printf("Access approved\n");
 							//blinking red for 10 seconds - so 20 times probably - beside lock is open
 							lck.unlock();
 							l.ALLoff();
-							for (int i = 0; i < 10; i++)	{
+							for (int i = 0; i < 15; i++)	{
 								l.GREENon();
-								_delay_ms(500);
+								_delay_ms(300);
 								l.GREENoff();
-								_delay_ms(500);
+								_delay_ms(300);
 							}
 							lck.lock();
 						}
