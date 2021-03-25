@@ -24,6 +24,22 @@ public:
 	~LED();
 	
 	void light(bool r, bool g, bool b, uint8_t time);
+	
+	void REDon();
+	void GREENon();
+	void BLUEon();
+	void ORANGEon();
+	void CYANon();
+	void WHITEon();
+	void PURPLEon();
+	
+	void REDoff();
+	void GREENoff();
+	void BLUEoff();
+	void ORANGEoff();
+	void CYANoff();
+	void ALLoff();
+	void PURPLEoff(); 
 protected:
 private:
 

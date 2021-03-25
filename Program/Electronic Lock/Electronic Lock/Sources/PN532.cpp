@@ -8,7 +8,7 @@
 
 #include "../Headers/PN532.h"
 #include "../Headers/SoftUART.h"
-	SoftUART s;
+SoftUART s;
 
 // default constructor
 PN532::PN532(){
@@ -28,9 +28,9 @@ bool PN532::setPassiveActivationRetries(uint8_t maxret){
 	pn532_packetbuffer[4] = maxret;
 	
 	if(writeCommand(pn532_packetbuffer, 5))
-		return 0;
+	return 0;
 	
-	return(0<readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer)));
+	return(0<readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000));
 }
 
 bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout){
@@ -46,7 +46,7 @@ bool PN532::readPassiveTargetID(uint8_t cardbaudrate, uint8_t *uid, uint8_t *uid
 	}
 	printf("stonks\n");
 	if(pn532_packetbuffer[0] != 1)
-		return 0;
+	return 0;
 	*uidLength = pn532_packetbuffer[5];
 	for(uint8_t i = 0; i < *uidLength; i++) {
 		uid[i] = pn532_packetbuffer[6 + i];
@@ -61,24 +61,22 @@ uint8_t PN532::setSAMConfig(){		pn532_packetbuffer[0] = PN532_COMMAND_SAMCONFI
 	pn532_packetbuffer[3] = 0x01; // use IRQ pin!
 
 	if(writeCommand(pn532_packetbuffer, 4))
-		return 0;
-		
+	return 0;
+	
 	uint8_t t = readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer));
 	
 	printf("I have done everything\n");
-	return t; 
+	return t;
 
 }
 
 uint32_t PN532::getFirmwareVersion(){	uint32_t response;
 	pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
 	if(writeCommand(pn532_packetbuffer, 1)){
-		printf("write error");
 		return 0;
 	}
-	int16_t status =  readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer));
+	int16_t status =  readResponse(pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
 	if(status < 0) {
-		printf("read response error %d", status);
 		return 0;
 	}
 
@@ -209,14 +207,7 @@ int8_t PN532::receive(uint8_t *buf, int len, uint16_t timeout/*=1000*/)
 	unsigned long start_millis;
 	
 	while (read_bytes < len) {
-		start_millis = 0;
-		do {
-			ret = u.recieveChar();
-			if (ret >= 0) {
-				break;
-			}
-			start_millis++;
-		} while((timeout == 0) || (start_millis  < timeout*F_CPU));
+		ret = u.recieveChar(timeout);
 		
 		if (ret < 0) {
 			if(read_bytes){

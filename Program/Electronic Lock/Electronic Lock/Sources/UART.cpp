@@ -42,6 +42,12 @@ uint8_t UART::recieveChar(void)
 };
 
 
+uint8_t UART::recieveChar(uint8_t timeout)
+{
+	while(!(UCSR0A& (1<<RXC0))){}; 
+	return UDR0;
+}
+
 void UART::sendBytes(uint8_t* data, const uint8_t len)
 {
 	for(uint8_t i=0; i < len; i++) this->sendChar(*(data++));

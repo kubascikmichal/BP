@@ -42,6 +42,7 @@ bool MANAGEMENT::addCard(cUID* uid){
 		memcpy(&admin, *uid, UID_LEN);
 		EEPROM_WAIT
 		eeprom_write_block(uid, (void*)ADMIN_ADD, UID_LEN);
+		return true;
 	}
 	uint8_t t = matchCards(uid);
 	if(t != 0) {
@@ -71,12 +72,6 @@ bool MANAGEMENT::removeCard(cUID* uid){
 	memcpy(&(this->cards[index]), &(this->cards[--countOfCards]), UID_LEN);
 	EEPROM_WAIT
 	eeprom_write_byte(COUNT_ADD, countOfCards);
-	
-// 	u.send("\n\r-------------------\n\r");
-// 	u.send(countOfCards);u.send("\n\r-------------------\n\r");
-// 	u.send(index);u.send("\n\r-------------------\n\r");
-// 	u.send(APPROVED_ADD(index));u.send("\n\r-------------------\n\r");
-// 	u.send(APPROVED_ADD((countOfCards+1)));u.send("\n\r-------------------\n\r");
 	cUID tmp;
 	EEPROM_WAIT
 	eeprom_read_block(&tmp, (void*) APPROVED_ADD((countOfCards)), UID_LEN);
