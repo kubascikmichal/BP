@@ -18,6 +18,15 @@
 int main(void)
 {
 	LED l;
+// 	l.BLUEon();
+// 	_delay_ms(1000);
+// 	l.BLUEoff();
+// 	l.REDon();
+// 	_delay_ms(1000);
+// 	l.REDoff();
+// 	l.GREENon();
+// 	_delay_ms(1000);
+// 	l.GREENoff();
 	Lock lck;
 	SoftUART s;
 	printf("Hello\n");
