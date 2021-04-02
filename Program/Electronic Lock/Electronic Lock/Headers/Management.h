@@ -8,6 +8,7 @@
 #include "Board.h"
 #include <avr/eeprom.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 #define UID_LEN 8
@@ -38,7 +39,7 @@ class MANAGEMENT
 	public:
 	MANAGEMENT();
 	~MANAGEMENT();
-	bool addCard(cUID* uid);
+	bool addCard(cUID* uid, bool eepromAlowed = true);
 	bool removeCard(cUID* uid);
 	uint8_t matchCards(cUID* uid, uint8_t* index = 0);
 	void factoryReset();

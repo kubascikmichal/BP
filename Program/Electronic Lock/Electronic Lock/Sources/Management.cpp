@@ -27,7 +27,7 @@ MANAGEMENT::MANAGEMENT(){
 		cUID c;
 		EEPROM_WAIT
 		eeprom_read_block(&c, (void *) APPROVED_ADD(i), UID_LEN);
-		addCard(&c);
+		addCard(&c, false);
 	}
 	
 } //MANAGEMENT
@@ -37,11 +37,13 @@ MANAGEMENT::~MANAGEMENT()
 {
 } //~MANAGEMENT
 
-bool MANAGEMENT::addCard(cUID* uid){
+bool MANAGEMENT::addCard(cUID* uid, bool eepromAlowed){
 	if(this->admin[0] == 255) {
 		memcpy(&admin, *uid, UID_LEN);
-		EEPROM_WAIT
-		eeprom_write_block(uid, (void*)ADMIN_ADD, UID_LEN);
+		if(eepromAlowed){
+			EEPROM_WAIT
+			eeprom_write_block(uid, (void*)ADMIN_ADD, UID_LEN);
+		}
 		return true;
 	}
 	uint8_t t = matchCards(uid);
@@ -53,11 +55,14 @@ bool MANAGEMENT::addCard(cUID* uid){
 		size = size*2;
 	}
 	memcpy(cards[countOfCards], *uid, UID_LEN);
-
-	EEPROM_WAIT
-	eeprom_write_block(uid, (void*)APPROVED_ADD(countOfCards++), UID_LEN);
-	EEPROM_WAIT
-	eeprom_write_byte(COUNT_ADD, countOfCards);
+	
+	if(eepromAlowed) {
+		EEPROM_WAIT
+		eeprom_write_block(uid, (void*)APPROVED_ADD(countOfCards++), UID_LEN);
+		EEPROM_WAIT
+		eeprom_write_byte(COUNT_ADD, countOfCards);
+	}
+	
 	return true;
 }
 
