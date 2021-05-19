@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define UID_LEN 8
+#define UID_LEN 7
 #define COUNT_ADD 0
 #define ADMIN_ADD 1
 #define APPROVED_START_ADD (ADMIN_ADD + UID_LEN)

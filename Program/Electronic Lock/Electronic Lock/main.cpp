@@ -18,15 +18,15 @@
 int main(void)
 {
 	LED l;
-// 	l.BLUEon();
-// 	_delay_ms(1000);
-// 	l.BLUEoff();
-// 	l.REDon();
-// 	_delay_ms(1000);
-// 	l.REDoff();
-// 	l.GREENon();
-// 	_delay_ms(1000);
-// 	l.GREENoff();
+	l.BLUEon();
+	_delay_ms(1000);
+	l.BLUEoff();
+	l.REDon();
+	_delay_ms(1000);
+	l.REDoff();
+	l.GREENon();
+	_delay_ms(1000);
+	l.GREENoff();
 	Lock lck;
 	SoftUART s;
 	printf("Hello\n");
@@ -61,6 +61,7 @@ int main(void)
 		MANAGEMENT::cUID uid = {0,0,0,0,0,0,0};
 		uint8_t uidLength;
 		printf("before reading card\n");
+		_delay_ms(1000);
 		succes = pn.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength);
 		if(succes) {
 			printf("well done boy\n");
@@ -105,7 +106,7 @@ int main(void)
 							}
 							} else{
 							printf("adding card\n");
-							mng.addCard(&uid);
+							mng.addCard(&uid, true);
 							//two green-orange blink blink
 							l.ALLoff();
 							for (int i = 0; i < 5; i++)	{
@@ -152,7 +153,7 @@ int main(void)
 			} else {
 			printf("no card jet\n");
 		}
-		_delay_ms(1000);
+		_delay_ms(500);
 	}
 }
 

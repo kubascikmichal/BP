@@ -21,6 +21,7 @@ MANAGEMENT::MANAGEMENT(){
 		EEPROM_WAIT
 		eeprom_write_byte(COUNT_ADD, 0);
 	}
+	printf("%d", tmp);
 	EEPROM_WAIT
 	eeprom_read_block(&admin, (void*)ADMIN_ADD, UID_LEN);
 	for (int i = 0; i < tmp; i++){
@@ -57,10 +58,13 @@ bool MANAGEMENT::addCard(cUID* uid, bool eepromAlowed){
 	memcpy(cards[countOfCards], *uid, UID_LEN);
 	
 	if(eepromAlowed) {
+		printf("adding to eeprom");
 		EEPROM_WAIT
 		eeprom_write_block(uid, (void*)APPROVED_ADD(countOfCards++), UID_LEN);
 		EEPROM_WAIT
 		eeprom_write_byte(COUNT_ADD, countOfCards);
+	} else {
+		countOfCards++;
 	}
 	
 	return true;
