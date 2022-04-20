@@ -22,7 +22,7 @@ int main(void)
 	_delay_ms(150);
 	l.BLUEoff();
 	l.REDon();
-	_delay_ms(150);
+	_delay_ms(200);
 	l.REDoff();
 	l.GREENon();
 	_delay_ms(150);
@@ -61,7 +61,16 @@ int main(void)
 		MANAGEMENT::cUID uid = {0,0,0,0,0,0,0};
 		uint8_t uidLength;
 		printf("before reading card\n");
-		_delay_ms(2000);
+		_delay_ms(500);
+		pn.start();
+		pn.getFirmwareVersion();
+		pn.setPassiveActivationRetries(0xFF);
+		int8_t ret = pn.setSAMConfig();
+		if(ret>=0) {
+			printf("sam config done\n");
+			} else {
+			printf("Something goes wrong\n %d", ret);
+		}
 		succes = pn.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength);
 		if(succes) {
 			printf("well done boy\n");
